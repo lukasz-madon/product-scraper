@@ -8,5 +8,5 @@ Deps (can be downloaded with pip)
 
 
 to run:
-./run start_service
-./run spider
+./start_service
+./spider

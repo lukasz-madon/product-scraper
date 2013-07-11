@@ -1,6 +1,6 @@
 from flask import request
 from service import app, db
-from product import Product
+from product import Product, json_to_product
 from datetime import datetime, timedelta
 
 @app.route("/rest/products/", methods=["GET", "PUT"])

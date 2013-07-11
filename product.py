@@ -1,6 +1,7 @@
 from service import db
 import ast
 import json
+from datetime import datetime
 
 class Product(db.Model):
     """represents a scraped product"""
