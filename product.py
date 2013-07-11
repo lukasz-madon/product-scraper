@@ -1,4 +1,6 @@
 from service import db
+import ast
+import json
 
 class Product(db.Model):
     """represents a scraped product"""
@@ -7,9 +9,9 @@ class Product(db.Model):
     designer = db.Column(db.String(50))
     price = db.Column(db.Float)
     gender = db.Column(db.String(1))
-    image_urls = db.Column(db.String(300))
+    image_urls = db.Column(db.String(400))
     name = db.Column(db.String(30))
-    raw_color = db.Column(db.String(15), primary_key=True, nullable=False, autoincrement=False)
+    raw_color = db.Column(db.String(15))
     sale_discount = db.Column(db.Float)
     source_url = db.Column(db.String(60))
     stock_status = db.Column(db.String(40))
@@ -31,8 +33,20 @@ class Product(db.Model):
         self.stock_status = stock_status
         self.last_updated = last_updated
         self.type = type
-
-    def __repr__(self):
-        return self.code
-
-
+        
+    def to_json(self):
+        prod = {}
+        prod["code"] = self.code
+        prod["description"] = self.description
+        prod["designer"] = self.designer
+        prod["price"] = self.price
+        prod["gender"] = self.gender
+        prod["name"] = self.name
+        prod["image_urls"] = ast.literal_eval(self.image_urls)
+        prod["raw_color"] = self.raw_color
+        prod["sale_discount"] = self.sale_discount
+        prod["source_url"] = self.source_url
+        prod["stock_status"] = ast.literal_eval(self.stock_status)
+        prod["last_updated"] = self.last_updated
+        prod["type"] = self.type
+        return json.dumps(prod)

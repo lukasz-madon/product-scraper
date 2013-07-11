@@ -9,4 +9,4 @@ db.create_all()
 #db.session.add(prod1)
 #db.session.commit()
 
-#print Product.query.all()
+print Product.query.all()

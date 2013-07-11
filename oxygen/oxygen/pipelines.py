@@ -6,8 +6,11 @@ class OxygenPipeline(object):
 
     def process_item(self, item, spider):
         if self.is_data_valid(item):
-            r = requests.put("http://127.0.0.1:5000/rest/products/", data=json.dumps(dict(item)))
-            log.msg("Result " + r.content, level=log.INFO)
+			data = dict(item)
+			data["__type__"] = "Product"
+			r = requests.put("http://127.0.0.1:5000/rest/products/", data=json.dumps(data),
+						headers={"content-type": "application/json"})
+			log.msg("Result " + r.content, level=log.INFO)
         else:
             log.msg("Data invalid " + item["code"], level=log.WARNING)
         return item

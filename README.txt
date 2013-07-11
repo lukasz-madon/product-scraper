@@ -1,11 +1,12 @@
 REST service that will provide developers with oxygenboutique.com products in a structured format (JSON)
 
-Deps
-- flask
+Deps (can be downloaded with pip)
+- Flask
 - Flask-SQLAlchemy
-- SQLite
+- Scrapy
+- requests
 
 
 to run:
-./run api
+./run start_service
 ./run spider
