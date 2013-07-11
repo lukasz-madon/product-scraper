@@ -71,7 +71,7 @@ class OxygenSpider(CrawlSpider):
 				stock_status[size] = 3
 				
 		item["stock_status"] = stock_status
-		item["last_updated"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+		item["last_updated"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 		item_type = "A"
 		item_name = item["name"].lower().split()

@@ -1,19 +1,32 @@
 from flask import request
 from service import app, db
 from product import Product
-
+from datetime import datetime, timedelta
 
 @app.route("/rest/products/", methods=["GET", "PUT"])
 def products():
 	if request.method == "PUT" and request.remote_addr == "127.0.0.1":
 		return add_products(request.get_json())
 	else:
-		return get_products()
+		if request.args:
+			return get_products(request.args.get("since"))
+		else:
+			return get_products(None)
 
-def get_products():
-	all_products = Product.query.all()
-	result = str([prod.to_json() for prod in all_products])
-	return '{"result": ' + result +'}' 
+def get_products(since):
+	all_products = []
+	if since is None:
+		all_products = Product.query.all()
+	else:
+		try:
+			s = datetime.strptime(since, "%Y-%m-%d")
+		except ValueError:
+			return '{"result": "invalid time"}'
+		all_products = Product.query.filter(Product.last_updated >= s)
+	old_date = datetime.now() - timedelta(days=30)
+	# filter old - doing it every get is an overkill, but number of items is less than 1000
+	result = "".join([prod.to_json() for prod in all_products if prod.last_updated >= old_date])
+	return '{"result": [' + result +']}' 
 
 def add_products(product):
 	prod = json_to_product(product)
@@ -38,11 +51,5 @@ def add_products(product):
 		db.session.commit()
 		return '{"result": "added"}'
 
-def json_to_product(prod):
-	if "__type__" in prod and prod["__type__"] == "Product":
-		image_urls = str(prod["image_urls"])
-		return Product(prod["code"], prod["description"], prod["designer"], prod["price"],
-						prod["gender"], image_urls, prod["name"], prod["raw_color"],
-						prod["sale_discount"], prod["source_url"], str(prod["stock_status"]),
-						prod["last_updated"], prod["type"])
+
 						

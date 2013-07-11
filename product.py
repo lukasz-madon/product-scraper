@@ -15,7 +15,7 @@ class Product(db.Model):
     sale_discount = db.Column(db.Float)
     source_url = db.Column(db.String(60))
     stock_status = db.Column(db.String(40))
-    last_updated = db.Column(db.String(20))
+    last_updated = db.Column(db.DateTime)
     type = db.Column(db.String(1))
 
     def __init__(self, code, description, designer, price, gender, image_urls, name,
@@ -47,6 +47,16 @@ class Product(db.Model):
         prod["sale_discount"] = self.sale_discount
         prod["source_url"] = self.source_url
         prod["stock_status"] = ast.literal_eval(self.stock_status)
-        prod["last_updated"] = self.last_updated
+        prod["last_updated"] = self.last_updated.strftime("%Y-%m-%d %H:%M:%S")
         prod["type"] = self.type
         return json.dumps(prod)
+
+def json_to_product(prod):
+	if "__type__" in prod and prod["__type__"] == "Product":
+		image_urls = str(prod["image_urls"])
+		stock_status = str(prod["stock_status"])
+		last_updated = datetime.strptime(prod["last_updated"], "%Y-%m-%d %H:%M:%S")
+		return Product(prod["code"], prod["description"], prod["designer"], prod["price"],
+						prod["gender"], image_urls, prod["name"], prod["raw_color"],
+						prod["sale_discount"], prod["source_url"], stock_status,
+						last_updated, prod["type"])
