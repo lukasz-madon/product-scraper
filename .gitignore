@@ -41,6 +41,7 @@ local.properties
 *.user
 *.sln.docstates
 *.pyproj
+*.sln
 # Build results
 
 [Dd]ebug/
@@ -213,3 +214,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#database
+*.db
