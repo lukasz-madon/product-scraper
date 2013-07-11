@@ -14,5 +14,5 @@ ITEM_PIPELINES = [
     'oxygen.pipelines.OxygenPipeline',
 ]
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'oxygen (+http://www.yourdomain.com)'
+# Crawl responsibly by identifying yourself on the user-agent
+# USER_AGENT = 'oxygen (+http://www.yourdomain.com)'

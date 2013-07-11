@@ -3,7 +3,9 @@
 
 from scrapy.item import Item, Field
 
+
 class OxygenProduct(Item):
+
     """represents a scraped product"""
     code = Field()
     description = Field()
@@ -18,4 +20,3 @@ class OxygenProduct(Item):
     stock_status = Field()
     last_updated = Field()
     type = Field()
-    
