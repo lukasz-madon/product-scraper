@@ -38,6 +38,9 @@ class Product(db.Model):
         self.stock_status = stock_status
         self.last_updated = last_updated
         self.type = type
+        
+    def __eq__(self, other): 
+        return self.code == other.code
 
     def to_json(self):
         prod = {}
@@ -56,17 +59,13 @@ class Product(db.Model):
         prod["type"] = self.type
         return json.dumps(prod)
 
-
-def json_to_product(prod):
-    if "__type__" in prod and prod["__type__"] == "Product":
-        image_urls = str(prod["image_urls"])
-        stock_status = str(prod["stock_status"])
-        last_updated = datetime.strptime(
-            prod["last_updated"], "%Y-%m-%d %H:%M:%S")
-        return Product(
-            prod["code"], prod["description"], prod["designer"], prod["price"],
-            prod["gender"], image_urls, prod[
-                "name"], prod["raw_color"],
-            prod["sale_discount"], prod[
-                "source_url"], stock_status,
-            last_updated, prod["type"])
+    @staticmethod
+    def json_to_product(prod):
+        if "__type__" in prod and prod["__type__"] == "Product":
+            image_urls = str(prod["image_urls"])
+            stock_status = str(prod["stock_status"])
+            last_updated = datetime.strptime(prod["last_updated"], "%Y-%m-%d %H:%M:%S")
+            return Product(prod["code"], prod["description"], prod["designer"],
+                            prod["price"], prod["gender"], image_urls, prod["name"],
+                            prod["raw_color"],prod["sale_discount"], prod["source_url"],
+                            stock_status, last_updated, prod["type"])

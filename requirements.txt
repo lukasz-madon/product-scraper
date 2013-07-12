@@ -1,4 +1,0 @@
-flask==0.10.1
-flask-sqlalchemy==0.16
-requests==1.2.3
-scrapy==0.16.5

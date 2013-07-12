@@ -1,6 +1,6 @@
 from flask import request
 from service import app, db
-from product import Product, json_to_product
+from product import Product
 from datetime import datetime, timedelta
 
 
@@ -34,7 +34,7 @@ def get_products(since):
 
 
 def add_products(product):
-    prod = json_to_product(product)
+    prod = Product.json_to_product(product)
     prod_ent = Product.query.get(prod.code)
     if prod_ent:
         prod_ent.description = prod.description
