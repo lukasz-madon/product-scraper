@@ -7,8 +7,8 @@ Deps (can be downloaded with pip)
 - requests
 
 to run:
-./start_service
-./spider
+python start_service.py
+python spider.py
 
 http://127.0.0.1:5000/rest/products/
 {"result": [{"code": ...
